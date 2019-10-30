@@ -11,56 +11,6 @@ double r8_min ( double x, double y );
 double r8_sign ( double x );
 double pythag ( double a, double b );
 int tql2 ( int n, double d[], double e[], double z[] )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TQL2 computes all eigenvalues/vectors, real symmetric tridiagonal matrix.
-//
-//  Discussion:
-//
-//    This subroutine finds the eigenvalues and eigenvectors of a symmetric
-//    tridiagonal matrix by the QL method.  The eigenvectors of a full
-//    symmetric matrix can also be found if TRED2 has been used to reduce this
-//    full matrix to tridiagonal form.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    08 November 2012
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Smith, Boyle, Dongarra, Garbow, Ikebe,
-//    Klema, Moler.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Bowdler, Martin, Reinsch, Wilkinson,
-//    TQL2,
-//    Numerische Mathematik,
-//    Volume 11, pages 293-306, 1968.
-//
-//    James Wilkinson, Christian Reinsch,
-//    Handbook for Automatic Computation,
-//    Volume II, Linear Algebra, Part 2,
-//    Springer, 1971,
-//    ISBN: 0387054146,
-//    LC: QA251.W67.
-//
-//    Brian Smith, James Boyle, Jack Dongarra, Burton Garbow,
-//    Yasuhiko Ikebe, Virginia Klema, Cleve Moler,
-//    Matrix Eigensystem Routines, EISPACK Guide,
-//    Lecture Notes in Computer Science, Volume 6,
-//    Springer Verlag, 1976,
-//    ISBN13: 978-3540075462,
-//    LC: QA193.M37.
-//
 //  Parameters:
 //
 //    Input, int N, the order of the matrix.
@@ -253,64 +203,6 @@ int tql2 ( int n, double d[], double e[], double z[] )
   return ierr;
 }
 double pythag ( double a, double b )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    PYTHAG computes SQRT ( A * A + B * B ) carefully.
-//
-//  Discussion:
-//
-//    The formula
-//
-//      PYTHAG = sqrt ( A * A + B * B )
-//
-//    is reasonably accurate, but can fail if, for example, A^2 is larger
-//    than the machine overflow.  The formula can lose most of its accuracy
-//    if the sum of the squares is very large or very small.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    08 November 2012
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Smith, Boyle, Dongarra, Garbow, Ikebe,
-//    Klema, Moler.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    James Wilkinson, Christian Reinsch,
-//    Handbook for Automatic Computation,
-//    Volume II, Linear Algebra, Part 2,
-//    Springer, 1971,
-//    ISBN: 0387054146,
-//    LC: QA251.W67.
-//
-//    Brian Smith, James Boyle, Jack Dongarra, Burton Garbow,
-//    Yasuhiko Ikebe, Virginia Klema, Cleve Moler,
-//    Matrix Eigensystem Routines, EISPACK Guide,
-//    Lecture Notes in Computer Science, Volume 6,
-//    Springer Verlag, 1976,
-//    ISBN13: 978-3540075462,
-//    LC: QA193.M37.
-//
-//  Modified:
-//
-//    08 November 2012
-//
-//  Parameters:
-//
-//    Input, double A, B, the two legs of a right triangle.
-//
-//    Output, double PYTHAG, the length of the hypotenuse.
-//
 {
   double p;
   double r;
@@ -342,34 +234,8 @@ double pythag ( double a, double b )
   }
   return p;
 }
-//****************************************************************************80
 
 double r8_abs ( double x )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_ABS returns the absolute value of an R8.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 November 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the quantity whose absolute value is desired.
-//
-//    Output, double R8_ABS, the absolute value of X.
-//
 {
   double value;
 
@@ -383,155 +249,14 @@ double r8_abs ( double x )
   }
   return value;
 }
-//****************************************************************************80
 
 double r8_epsilon ( )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_EPSILON returns the R8 roundoff unit.
-//
-//  Discussion:
-//
-//    The roundoff unit is a number R which is a power of 2 with the
-//    property that, to the precision of the computer's arithmetic,
-//      1 < 1 + R
-//    but
-//      1 = ( 1 + R / 2 )
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 September 2012
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Output, double R8_EPSILON, the R8 round-off unit.
-//
 {
   static double value = 2.220446049250313E-016;
 
   return value;
 }
-//****************************************************************************80
 
-double r8_max ( double x, double y )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_MAX returns the maximum of two R8's.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    18 August 2004
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, Y, the quantities to compare.
-//
-//    Output, double R8_MAX, the maximum of X and Y.
-//
-{
-  double value;
-
-  if ( y < x )
-  {
-    value = x;
-  }
-  else
-  {
-    value = y;
-  }
-  return value;
-}
-//****************************************************************************80
-
-double r8_min ( double x, double y )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_MIN returns the minimum of two R8's.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    31 August 2004
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, Y, the quantities to compare.
-//
-//    Output, double R8_MIN, the minimum of X and Y.
-//
-{
-  double value;
-
-  if ( y < x )
-  {
-    value = y;
-  }
-  else
-  {
-    value = x;
-  }
-  return value;
-}
-//****************************************************************************80
-
-double r8_sign ( double x )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_SIGN returns the sign of an R8.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    18 October 2004
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the number whose sign is desired.
-//
-//    Output, double R8_SIGN, the sign of X.
-//
 {
   double value;
 
