@@ -24,6 +24,7 @@ int main()
 	int n = 50;
 	double a = 0,b=1;
 	double x[n+1],e[n+1], h = (b-a)/n;
+	//discretisation
 	for(int i = 0; i < n; i++)
 	{
 		x[i] = a + i*h;
@@ -63,6 +64,7 @@ int main()
 	{
 		P[i] = P[i] + Q[i];
 	}
+	//cholsky decomposition
 	double L[n+1];
 	for(int i = 0; i < n; i++)
 	{
