@@ -285,8 +285,13 @@ double r8_sign ( double x )
   }
   return value;
 }
-
-
+void extrapolate(double E[],double E2[],int n,double res[])
+{
+	for(int i = 0; i < n; i++)
+	{
+		res[i] = E2[i] + E2[i] - E[i];
+	}
+}
 double p_f(double x)
 {
 	double pi = 3.14159265359;
@@ -303,24 +308,18 @@ double w_f(double x)
 	double value = 1 + sqrt(x);
 	return value;
 } 
-int main()
+void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[])
 {
-	cout.precision(10);    
-    cout.setf(ios::fixed);
-	int n = 500;
-	double a = 0,b = 1;
-	double alp_1 = 1, bet_1 = 0, alp_2 = 0, bet_2 = 1;
 	double x[n+1],e[n], h = (b-a)/n;
 	for(int i = 0; i <= n; i++)
 	{
 		x[i] = a + i*h;
-	
 	}
 	for(int i = 0; i < n; i++)
 	{
 		e[i] = a + (i + 0.5)*h;
 	}
-	double Q[n],W[n],P[n],A[n],B[n];
+	double Q[n],W[n],A[n],B[n];
 	for(int i = 0; i < n; i++)
 	{
 		Q[i] = q_f(e[i]);
@@ -377,16 +376,32 @@ int main()
 			z[i] = 0;
 		}
 	}
-	double E[n+1];
+	double E[n];
 	E[0] = 0;
 	for(int i = 1; i < n; i++)
 	{
 		E[i] = A[i-1];
 	}
-    tql2(n,P,E,z);
+	tql2(n,P,E,z);
+}
+int main()
+{
+	cout.precision(10);    
+    cout.setf(ios::fixed);
+	double P[1000],P2[1000];
+	int n = 500;
+	double a = 0,b=1;
+	double alp_1 = 1, bet_1 = 5, alp_2 = 0, bet_2 = 1;
+	double res[n];
+	fdm(n,a,b,alp_1,alp_2,bet_1,bet_2,P);
+	n = n/2;
+	fdm(n,a,b,alp_1,alp_2,bet_1,bet_2,P2);
+	extrapolate(P,P2,2*n,res);
 	for(int i = 0; i < 8; i++)
 	{
-		cout<<"lambda "<< i+1 <<" = "<<P[i]<<endl;
+		cout<<"lambda "<< i+1 <<" = "<<P[i]<<"\t";
+		cout<<"lambda "<< i+1 <<" = "<<P2[i]<<"\t";
+		cout<<"lambda "<< i+1 <<" = "<<res[i]<<endl;
 	}
     return 0;
 }
