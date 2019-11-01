@@ -11,31 +11,6 @@ double r8_min ( double x, double y );
 double r8_sign ( double x );
 double pythag ( double a, double b );
 int tql2 ( int n, double d[], double e[], double z[] )
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//
-//    Input/output, double D[N].  On input, the diagonal elements of
-//    the matrix.  On output, the eigenvalues in ascending order.  If an error
-//    exit is made, the eigenvalues are correct but unordered for indices
-//    1,2,...,IERR-1.
-//
-//    Input/output, double E[N].  On input, E(2:N) contains the
-//    subdiagonal elements of the input matrix, and E(1) is arbitrary.
-//    On output, E has been destroyed.
-//
-//    Input, double Z[N*N].  On input, the transformation matrix
-//    produced in the reduction by TRED2, if performed.  If the eigenvectors of
-//    the tridiagonal matrix are desired, Z must contain the identity matrix.
-//    On output, Z contains the orthonormal eigenvectors of the symmetric
-//    tridiagonal (or full) matrix.  If an error exit is made, Z contains
-//    the eigenvectors associated with the stored eigenvalues.
-//
-//    Output, int TQL2, error flag.
-//    0, normal return,
-//    J, if the J-th eigenvalue has not been determined after
-//    30 iterations.
-//
 {
   double c;
   double c2;
@@ -100,7 +75,7 @@ int tql2 ( int n, double d[], double e[], double z[] )
     {
       for ( ; ; )
       {
-        if ( 30 <= j )
+        if ( 1000 <= j )
         {
           ierr = l + 1;
           return ierr;
@@ -236,6 +211,7 @@ double pythag ( double a, double b )
 }
 
 double r8_abs ( double x )
+
 {
   double value;
 
@@ -249,13 +225,52 @@ double r8_abs ( double x )
   }
   return value;
 }
+//**************************80
 
 double r8_epsilon ( )
+
 {
   static double value = 2.220446049250313E-016;
 
   return value;
 }
+//**************************80
+
+double r8_max ( double x, double y )
+
+{
+  double value;
+
+  if ( y < x )
+  {
+    value = x;
+  }
+  else
+  {
+    value = y;
+  }
+  return value;
+}
+//**************************80
+
+double r8_min ( double x, double y )
+
+{
+  double value;
+
+  if ( y < x )
+  {
+    value = y;
+  }
+  else
+  {
+    value = x;
+  }
+  return value;
+}
+//**************************80
+
+double r8_sign ( double x )
 
 {
   double value;
@@ -270,13 +285,123 @@ double r8_epsilon ( )
   }
   return value;
 }
-int main(){
-    int n=3;
-    double d[n]={1,2,1};
-    double e[n]={1,-1,-1};
-    double z[9]={1,0,0,0,1,0,0,0,1};
-
-    cout<<tql2(n,d,e,z);
-    system("pause");
+void extrapolate(double E[],double E2[],int n,double res[])
+{
+	for(int i = 0; i < n; i++)
+	{
+		res[i] = E2[i] + E2[i] - E[i];
+	}
+}
+double p_f(double x)
+{
+	double pi = 3.14159265359;
+	double value = 2 + sin(2*pi*x);
+	return value;
+}
+double q_f(double x)
+{
+	double value = -10;
+	return value;
+}
+double w_f(double x)
+{
+	double value = 1 + sqrt(x);
+	return value;
+} 
+void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[])
+{
+	double x[n+1],e[n], h = (b-a)/n;
+	for(int i = 0; i <= n; i++)
+	{
+		x[i] = a + i*h;
+	}
+	for(int i = 0; i < n; i++)
+	{
+		e[i] = a + (i + 0.5)*h;
+	}
+	double Q[n],W[n],A[n],B[n];
+	for(int i = 0; i < n; i++)
+	{
+		Q[i] = q_f(e[i]);
+		W[i] = w_f(e[i]);
+	}
+	double ya = 2 - 4*alp_2/(2*alp_2 - alp_1*h), yb = 2 - 4*bet_2/(2*bet_2 + bet_1*h);
+	for(int i = 0; i < n; i++)
+	{
+		if(i == 0)
+		{
+			P[i] = 1/(pow(h,2))*(ya*p_f(x[i]) + p_f(x[i+1]));
+			A[i] = -1/(pow(h,2))*p_f(x[i+1]);
+			B[i] = -1/(pow(h,2))*p_f(x[i+1]);
+		}
+		else if(i == n - 1)
+		{
+			P[i] = 1/(pow(h,2))*(yb*p_f(x[i]) + p_f(x[i+1]));
+		}
+		else
+		{
+			A[i] = -1/(pow(h,2))*p_f(x[i+1]);
+			B[i] = -1/(pow(h,2))*p_f(x[i+1]);
+			P[i] = 1/(pow(h,2))*(p_f(x[i]) + p_f(x[i+1]));
+		}
+		
+	}
+	for(int i = 0; i < n; i++)
+	{
+		P[i] = P[i] + Q[i];
+	}
+	double L[n+1];
+	for(int i = 0; i < n; i++)
+	{
+		L[i] = 1/sqrt(W[i]);
+	}
+	for(int i = 0; i < n-1; i++)
+	{
+		A[i] = A[i]*L[i+1]*L[i];
+		B[i] = B[i]*L[i]*L[i+1];
+	}
+	for(int i=0; i < n; i++)    
+	{
+		P[i] = P[i]*L[i]*L[i];
+	}
+    double z[(n)*(n)];
+	for(int i = 0; i < (n)*(n); i++)
+	{
+		if(i%(n+1) == 0)
+		{
+			z[i] = 1;
+		}
+		else
+		{
+			z[i] = 0;
+		}
+	}
+	double E[n];
+	E[0] = 0;
+	for(int i = 1; i < n; i++)
+	{
+		E[i] = A[i-1];
+	}
+	tql2(n,P,E,z);
+}
+int main()
+{
+	cout.precision(10);    
+    cout.setf(ios::fixed);
+	double P[1000],P2[1000];
+	int n = 500;
+	double a = 0,b=1;
+	double alp_1 = 1, bet_1 = 5, alp_2 = 0, bet_2 = 1;
+	double res[n];
+	fdm(n,a,b,alp_1,alp_2,bet_1,bet_2,P);
+	n = n/2;
+	fdm(n,a,b,alp_1,alp_2,bet_1,bet_2,P2);
+	extrapolate(P,P2,2*n,res);
+	for(int i = 0; i < 8; i++)
+	{
+		cout<<"lambda "<< i+1 <<" = "<<P[i]<<"\t";
+		cout<<"lambda "<< i+1 <<" = "<<P2[i]<<"\t";
+		cout<<"lambda "<< i+1 <<" = "<<res[i]<<endl;
+	}
     return 0;
 }
