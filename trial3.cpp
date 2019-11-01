@@ -372,6 +372,12 @@ int main()
 		A[i] = A[i]*L[i];
 		B[i] = B[i]*L[i+1];
 	}
+	double E[n+1];
+	E[0] = 0;
+	for(int i = 1; i < n-1; i++)
+	{
+		E[i] = A[i-1];
+	}
     double z[(n+1)*(n+1)];
 	for(int i = 0; i < (n+1)*(n+1); i++)
 	{
@@ -385,12 +391,11 @@ int main()
 		}
 	}
 	cout.precision(5);    
-    cout.setf(ios::fixed);
-    cout<<tql2(n+1,P,A,z);
+   	cout.setf(ios::fixed);
+   	tql2(n+1,P,E,z);
 	for(int i = 0; i < n+1; i++)
 	{
 		cout<<P[i]<<endl;
 	}
-    system("pause");
     return 0;
 }
