@@ -6,21 +6,31 @@ void extrapolate(double E[],double E2[],int n,double res[])//Richardson Extrapol
 		res[i] = E2[i] + E2[i] - E[i];
 	}
 }
+void extrapolate1(double E[],double E2[],int n,double res[])//Richardson Extrapolation
+{   float m=n/2;
+    float pi = 3.14159265359;
+	for(int i = 0; i < 9; i++)
+	{
+        float val = 0;
+        res[i] = ((pow(n,5)*sin((i*pi)/n)*E[i])-(pow(m,5)*sin((i*pi)/m)*E2[i]))/(pow(n,5)*sin((i*pi)/n)-(pow(m,5)*sin((i*pi)/m)));
+        
+	}
+}
 double p_f(double x)
 {
 	double pi = 3.14159265359;
-	double value = 2 + sin(2*pi*x);
-	return value;
+	double value = -(1-pow(x,2));
+	return 1.0;
 }
 double q_f(double x)
 {
-	double value = -10;
-	return value;
+	double value =(0.25);
+	return 0;
 }
 double w_f(double x)
-{
-	double value = 1 + sqrt(x);
-	return value;
+{   double pi = 3.14159265359;
+	double value = (64*pow(pi,2)/(9*pow(x,6)));
+	return 1.0;
 }
 void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[])//finite difference method1
 {

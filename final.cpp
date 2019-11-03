@@ -309,7 +309,7 @@ double w_f(double x)
 	double value = 1 + sqrt(x);
 	return value;
 } 
-void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[])
+void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[],double * theta)
 {
 	double x[n+1],e[n], h = (b-a)/n;
 	for(int i = 0; i <= n; i++)
@@ -384,6 +384,7 @@ void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, doub
 		E[i] = A[i-1];
 	}
 	tql2(n,P,E,z);
+  theta = z;
 }
 int main()
 {
@@ -391,8 +392,8 @@ int main()
     cout.setf(ios::fixed);
 	double P[1000],P2[1000];
 	int n = 500;
-	double a = 0,b=1;
-	double alp_1 = 1, bet_1 = 5, alp_2 = 0, bet_2 = 1;
+	double a = 0.0,b=1000;
+	double alp_1 = 1, bet_1 = 1, alp_2 = 0, bet_2 = 0;
 	double res[n];
 	fdm(n,a,b,alp_1,alp_2,bet_1,bet_2,P);
 	n = n/2;

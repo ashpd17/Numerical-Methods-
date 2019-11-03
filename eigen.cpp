@@ -19,7 +19,6 @@ int tqlrat ( int n, double d[], double e2[] )
   for ( l = 0; l < n; l++ ){
      j = 0;
      h = abs ( d[l] ) + sqrt ( e2[l] );
-f
      if ( t <= h ){
        t = h;
        b = abs ( t ) * eps ( );
@@ -36,7 +35,7 @@ for ( m = l; m < n; m++ ){
     if ( m != l ){
         //edit01
       while(true)      {
-        if ( 30 <= j ){
+        if ( 50 <= j ){
           errcd = l + 1;
           return errcd;
         }
