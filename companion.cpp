@@ -6,23 +6,17 @@ void extrapolate(double E[],double E2[],int n,double res[])//Richardson Extrapol
 		res[i] = E2[i] + E2[i] - E[i];
 	}
 }
-double p_f(double x)
-{
-	double pi = 3.14159265359;
-	double value = 2 + sin(2*pi*x);
-	return value;
+void extrapolate1(double E[],double E2[],int n,double res[])//Richardson Extrapolation
+{   float m=n/2;
+    float pi = 3.14159265359;
+	for(int i = 0; i < 9; i++)
+	{
+        float val = 0;
+        res[i] = ((pow(n,5)*sin((i*pi)/n)*E[i])-(pow(m,5)*sin((i*pi)/m)*E2[i]))/(pow(n,5)*sin((i*pi)/n)-(pow(m,5)*sin((i*pi)/m)));
+        
+	}
 }
-double q_f(double x)
-{
-	double value = -10;
-	return value;
-}
-double w_f(double x)
-{
-	double value = 1 + sqrt(x);
-	return value;
-}
-void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[])//finite difference method1
+void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[],double z[],double p_f(double x1),double q_f(double x2),double w_f(double x3))//finite difference method1
 {
 	double x[n+1],e[n], h = (b-a)/n;
 	for(int i = 0; i <= n; i++)
@@ -80,18 +74,18 @@ void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, doub
 	}
     //z input identity matrix of order n 
     //Returns Eigen vectors
-    double z[(n)*(n)];
-	for(int i = 0; i < (n)*(n); i++)
-	{
-		if(i%(n+1) == 0)
-		{
-			z[i] = 1;
-		}
-		else
-		{
-			z[i] = 0;
-		}
-	}
+    // double z[(n)*(n)];
+	// for(int i = 0; i < (n)*(n); i++)
+	// {
+	// 	if(i%(n+1) == 0)
+	// 	{
+	// 		z[i] = 1;
+	// 	}
+	// 	else
+	// 	{
+	// 		z[i] = 0;
+	// 	}
+	// }
 	double E[n];
 	E[0] = 0;
 	for(int i = 1; i < n; i++)
