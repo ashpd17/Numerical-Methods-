@@ -10,6 +10,7 @@ double r8_max ( double x, double y );
 double r8_min ( double x, double y );
 double r8_sign ( double x );
 double pythag ( double a, double b );
+
 int tql2 ( int n, double d[], double e[], double z[] )
 {
   double c;

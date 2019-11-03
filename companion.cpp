@@ -1,4 +1,5 @@
-void extrapolate(double E[],double E2[],int n,double res[])
+using namespace std;
+void extrapolate(double E[],double E2[],int n,double res[])//Richardson Extrapolation
 {
 	for(int i = 0; i < n; i++)
 	{
@@ -20,8 +21,8 @@ double w_f(double x)
 {
 	double value = 1 + sqrt(x);
 	return value;
-} 
-void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[])
+}
+void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, double bet_2,double P[])//finite difference method1
 {
 	double x[n+1],e[n], h = (b-a)/n;
 	for(int i = 0; i <= n; i++)
@@ -40,12 +41,12 @@ void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, doub
 	}
 	double ya = 2 - 4*alp_2/(2*alp_2 - alp_1*h), yb = 2 - 4*bet_2/(2*bet_2 + bet_1*h);
 	for(int i = 0; i < n; i++)
+    //P is array containing diagonal element
 	{
 		if(i == 0)
 		{
 			P[i] = 1/(pow(h,2))*(ya*p_f(x[i]) + p_f(x[i+1]));
 			A[i] = -1/(pow(h,2))*p_f(x[i+1]);
-			B[i] = -1/(pow(h,2))*p_f(x[i+1]);
 		}
 		else if(i == n - 1)
 		{
@@ -54,7 +55,6 @@ void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, doub
 		else
 		{
 			A[i] = -1/(pow(h,2))*p_f(x[i+1]);
-			B[i] = -1/(pow(h,2))*p_f(x[i+1]);
 			P[i] = 1/(pow(h,2))*(p_f(x[i]) + p_f(x[i+1]));
 		}
 		
@@ -63,6 +63,7 @@ void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, doub
 	{
 		P[i] = P[i] + Q[i];
 	}
+    //cholsky decomposition
 	double L[n+1];
 	for(int i = 0; i < n; i++)
 	{
@@ -77,6 +78,8 @@ void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, doub
 	{
 		P[i] = P[i]*L[i]*L[i];
 	}
+    //z input identity matrix of order n 
+    //Returns Eigen vectors
     double z[(n)*(n)];
 	for(int i = 0; i < (n)*(n); i++)
 	{
@@ -93,7 +96,8 @@ void fdm(int n, double a, double b, double alp_1,double alp_2,double bet_1, doub
 	E[0] = 0;
 	for(int i = 1; i < n; i++)
 	{
-		E[i] = A[i-1];
+		E[i] =A[i-1];
 	}
 	tql2(n,P,E,z);
+    
 }
